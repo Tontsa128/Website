@@ -7,7 +7,8 @@ Tekoälyavusteinen SaaS-nettisivukone pienyrityksille, yksinyrittäjille ja free
 - Vaihe 0: tekninen pohja ja CI:n korjauskierros ovat PR:ssä #1.
 - Vaihe 1: kirjautumisen toteutus on PR:ssä #2. Älä merkitse kirjautumista tuotantovalmiiksi ennen kuin Supabase-projekti ja Google OAuth on määritetty ja kirjautumispolut testattu.
 - Vaihe 2: sivustot ja sivupuu ovat PR:ssä #3.
-- Vaihe 3: lohkoeditori on työn alla branchissa `phase-3-editor`.
+- Vaihe 3: lohkoeditori on PR:ssä #4.
+- Vaihe 4: yksityinen kuva-arkisto ja WebP-käsittely ovat työn alla branchissa `phase-4-media-library`.
 
 ## Teknologia
 

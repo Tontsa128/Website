@@ -63,3 +63,12 @@
 - Sivun luonnossisältö validoidaan Zod-skeemalla palvelimella ennen tallennusta. Rich text tallennetaan Tiptapin JSONina, ei HTML-merkkijonona; renderöijä muodostaa React-elementit ja sallii vain turvalliset linkkikohteet.
 - Automaattitallennus tehdään palvelimen Server Actionilla debounce-viiveellä ja käyttäjä varmennetaan `auth.getUser()`-kutsulla ennen päivitystä. RLS jää tietokannan viimeiseksi omistajuusrajaukseksi.
 - Vaiheessa 3 kuvablokki käyttää tarkoituksella paikkamerkkiä. Varsinainen tiedoston lataus, `media_id`-valitsin ja Storage tehdään vasta vaiheessa 4.
+
+
+## 2026-10-14 – Vaihe 4: media-arkisto
+
+- Kuvien käsittely tehdään Node.js Route Handlerissa Sharp 0.35.5:llä. Palvelin tarkistaa todellisen kuvaformaatin dekoodaamalla tiedoston, hylkää SVG/GIF/AVIF/TIFF- ja animoidut kuvat, kiertää EXIF-suunnan, rajaa enimmäismitat 2560 × 2560 pikseliin ja muuntaa kuvan WebP-muotoon. Sharpin asennusskripti sallitaan pnpm-konfiguraatiossa erikseen, ei kaikkien pakettien skriptejä.
+- Latausputki käyttää kahta yksityistä Supabase Storage -bucketia: inbox säilyttää väliaikaisesti alkuperäisen ras-terikuvan ja lopullinen site-media vain käsitellyn WebP-kuvan. Molempiin pääsee vain kyseisen sivuston omistaja Storage RLS -sääntöjen kautta. Näin 10 MB:n alkuperäistiedosto ei kulje Vercel Route Handlerin pyyntörungossa.
+- Jokainen tiedostopolku luodaan palvelimen satunnaisella UUID:llä, alkuperäistä tiedostonimeä käytetään vain metadataan, eikä SVG:tä hyväksytä. Kummankin bucketin sallitut MIME-tyypit ja 10 MB:n tiedostoraja asetetaan bucket-tasolla.
+- Kirjasto näyttää alt-tekstin, kansion, tagit, mitat, WebP-tiedoston koon sekä tietokannan luonnos-/julkaisusisällöstä lasketun käyttökohteiden määrän. Käytössä olevan kuvan poisto estetään, kunnes viittaukset on poistettu.
+- Editori tallentaa kuviin viittauksen `mediaId`:llä; sivulle lisätään myös galleria-lohko, joka viittaa media-arkiston tunnisteisiin eikä kovakoodattuihin tiedosto-URL-osoitteisiin.
