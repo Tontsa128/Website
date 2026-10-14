@@ -23,7 +23,11 @@
     "@supabase/ssr": "0.12.7",
     "@supabase/supabase-js": "2.117.3",
     "@dnd-kit/react": "0.5.0",
-    "zod": "4.6.5"
+    "zod": "4.6.5",
+    "@tiptap/react": "3.32.0",
+    "@tiptap/starter-kit": "3.32.0",
+    "@tiptap/pm": "3.32.0",
+    "zustand": "5.0.15"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "4.3.3",
