@@ -128,7 +128,9 @@ function validateRichNode(
     value.type !== "text" &&
     value.type !== "hardBreak" &&
     value.type !== "horizontalRule" &&
-    value.content === undefined
+    value.content === undefined &&
+    value.type !== "paragraph" &&
+    value.type !== "heading"
   ) {
     return false;
   }
