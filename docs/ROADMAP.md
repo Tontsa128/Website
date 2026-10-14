@@ -8,13 +8,14 @@
 - [x] Supabase-migraatiopohja
 - [ ] CI:n neljän tarkistuksen vihreä tulos
 
-## Vaihe 1 — Kirjautuminen
-- Supabase Auth
-- Google OAuth
-- sähköposti/salasana
-- vahvistus, palautus ja logout
-- suojatut dashboard/editor-reitit
-- profiles + trigger
+## Vaihe 1 — Kirjautuminen (toteutus kesken PR:ssä #2)
+- [ ] Supabase Auth -selain- ja palvelinasiakkaat
+- [ ] Google OAuth
+- [ ] sähköposti/salasana
+- [ ] vahvistus, palautus ja logout
+- [ ] suojatut dashboard/editor-reitit
+- [ ] profiles + trigger
+- [ ] Testaa kaikki kirjautumispolut oikeassa Supabase-projektissa
 
 ## Vaihe 2 — Sivustot ja sivupuu
 - sites/pages + RLS
