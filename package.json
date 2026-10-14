@@ -19,7 +19,9 @@
     "next": "16.4.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
-    "tailwind-merge": "3.7.0"
+    "tailwind-merge": "3.7.0",
+    "@supabase/ssr": "0.12.7",
+    "@supabase/supabase-js": "2.117.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "4.3.3",
@@ -30,7 +32,7 @@
     "eslint-config-next": "16.4.0",
     "prettier": "3.9.10",
     "tailwindcss": "4.3.3",
-    "typescript": "7.0.2",
+    "typescript": "6.0.3",
     "vitest": "5.0.4"
   },
   "packageManager": "pnpm@12.11.2",
