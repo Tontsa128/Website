@@ -212,12 +212,25 @@ export const ColumnsBlockSchema = z.object({
   }),
 }).strict();
 
+export const GalleryBlockSchema = z.object({
+  ...blockBase,
+  type: z.literal("gallery"),
+  props: z.object({
+    mediaIds: z.array(z.string().uuid()).max(30).refine(
+      (ids) => new Set(ids).size === ids.length,
+      "Gallery media ids must be unique",
+    ),
+    columns: z.union([z.literal(2), z.literal(3), z.literal(4)]),
+  }).strict(),
+}).strict();
+
 export const PageBlockSchema = z.discriminatedUnion("type", [
   HeroBlockSchema,
   TextBlockSchema,
   ImageBlockSchema,
   ButtonBlockSchema,
   ColumnsBlockSchema,
+  GalleryBlockSchema,
 ]);
 
 export const PageContentSchema = z.array(PageBlockSchema).max(100, {
@@ -229,5 +242,6 @@ export type TextBlock = z.infer<typeof TextBlockSchema>;
 export type ImageBlock = z.infer<typeof ImageBlockSchema>;
 export type ButtonBlock = z.infer<typeof ButtonBlockSchema>;
 export type ColumnsBlock = z.infer<typeof ColumnsBlockSchema>;
+export type GalleryBlock = z.infer<typeof GalleryBlockSchema>;
 export type PageBlock = z.infer<typeof PageBlockSchema>;
 export type BlockType = PageBlock["type"];
