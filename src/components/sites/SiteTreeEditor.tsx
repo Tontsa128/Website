@@ -254,17 +254,9 @@ export function SiteTreeEditor({
     if (result.ok) router.refresh();
   }
 
-  async function handleDragEnd(event: {
-    canceled: boolean;
-    operation: {
-      source: { id: string | number };
-      target?: { id: string | number } | null;
-    };
-  }) {
-    if (event.canceled) return;
+  async function handleDrop(sourceId: string, targetId: string, canceled: boolean) {
+    if (canceled) return;
 
-    const sourceId = String(event.operation.source.id);
-    const targetId = event.operation.target ? String(event.operation.target.id) : "";
     if (!sourceId.startsWith("page-drag-")) return;
     const pageId = sourceId.slice("page-drag-".length);
     const page = allPages.find((item) => item.id === pageId);
@@ -312,7 +304,7 @@ export function SiteTreeEditor({
         {notice && <p role="status" aria-live="polite" className="mt-3 text-sm text-slate-700">{notice}</p>}
       </div>
 
-      <DragDropProvider onDragEnd={(event) => { void handleDragEnd(event); }}>
+      <DragDropProvider onDragEnd={(event) => { void handleDrop(String(event.operation.source.id), event.operation.target ? String(event.operation.target.id) : "", event.canceled); }}>
         <RootDropTarget />
         {tree.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-slate-300 bg-white px-5 py-10 text-center">
