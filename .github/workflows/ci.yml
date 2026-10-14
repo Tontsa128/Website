@@ -19,11 +19,12 @@ jobs:
           version: 12.10.0
           run_install: false
 
+      # Dependency caching requires a committed pnpm-lock.yaml. Keep caching
+      # disabled until the lockfile is generated and reviewed into the repo.
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
           node-version: 24
-          cache: pnpm
 
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
