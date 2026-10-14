@@ -26,13 +26,16 @@
 - [ ] Polkujen päivitys transaktionaalisilla RPC-funktioilla
 - [ ] Sivupuun yksikkötestit ja kahden käyttäjän RLS-testit
 
-## Vaihe 3 — Editori
-- lohkorekisteri
-- peruslohkot
-- Tiptap
-- automaattitallennus
-- undo/redo
-- responsive preview
+## Vaihe 3 — Editori (toteutus kesken PR:ssä #4)
+- [ ] Versioitu lohkorekisteri ja Zod-skeemat
+- [ ] Hero-, teksti-, kuva-, painike- ja sarakelohkot
+- [ ] Tiptap-pohjainen suora tekstimuokkaus
+- [ ] Lisää, siirrä, poista ja valitse lohko
+- [ ] Automaattitallennus ja tallennustila
+- [ ] Undo/redo ja tekstin Ctrl+Z
+- [ ] Mobiili-, tabletti- ja työpöytäesikatselu
+- [ ] Testit lohkoskeemoille ja editorin tilalle
+- [ ] Vahvista tietokantatallennus Supabase-projektissa
 
 ## Vaihe 4 — Media
 - Supabase Storage

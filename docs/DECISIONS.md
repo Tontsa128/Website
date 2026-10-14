@@ -54,3 +54,12 @@
 - RPC-funktiot toimivat kutsujan oikeuksilla (SECURITY INVOKER), tarkistavat auth.uid()-omistajuuden ja ovat suoritettavissa vain authenticated-roolille. Taulujen RLS pysyy käytössä.
 - Käyttäjällä voi olla enintään kolme sivustoa. Rajaa valvoo tietokantafunktio lukitsemalla käyttäjäkohtaisen advisory-lockin sivustoa luotaessa.
 - Sivujen kopiointi kopioi koko alipuuston luonnoksiksi. Julkaistu sisältö ei kopioidu julkaistuksi, eikä kopio automaattisesti asetu etusivuksi.
+
+
+## 2026-10-14 – Vaihe 3: lohkoeditori
+
+- Tiptap React, StarterKit, core ja ProseMirror-paketit pinataan versioon 3.32.0, joka on tarkistettu npm:stä sekä Tiptapin virallisesta React- ja StarterKit-dokumentaatiosta. StarterKit tarjoaa otsikot, kappaleet, listat, lihavoinnin, kursivoinnin, linkit ja tekstin undo/redo-toiminnot.
+- Zustand pinataan versioon 5.0.15 editorin lohkojen ja lohkotason undo/redo-historian tilanhallintaan.
+- Sivun luonnossisältö validoidaan Zod-skeemalla palvelimella ennen tallennusta. Rich text tallennetaan Tiptapin JSONina, ei HTML-merkkijonona; renderöijä muodostaa React-elementit ja sallii vain turvalliset linkkikohteet.
+- Automaattitallennus tehdään palvelimen Server Actionilla debounce-viiveellä ja käyttäjä varmennetaan `auth.getUser()`-kutsulla ennen päivitystä. RLS jää tietokannan viimeiseksi omistajuusrajaukseksi.
+- Vaiheessa 3 kuvablokki käyttää tarkoituksella paikkamerkkiä. Varsinainen tiedoston lataus, `media_id`-valitsin ja Storage tehdään vasta vaiheessa 4.

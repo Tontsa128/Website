@@ -153,6 +153,12 @@ function PageTreeItem({
             <button type="button" onClick={() => void copyPage()} disabled={busy} className="min-h-10 rounded-lg border border-slate-200 px-2.5 text-sm hover:bg-slate-50 disabled:opacity-60">
               Kopioi
             </button>
+            <Link
+              href={"/editor/" + page.id}
+              className="inline-flex min-h-10 items-center rounded-lg border border-sky-200 px-2.5 text-sm font-medium text-sky-800 hover:bg-sky-50"
+            >
+              Muokkaa
+            </Link>
             {!page.is_home && (
               <button type="button" onClick={() => void runAction(setHomePageAction(page.id))} disabled={busy} className="min-h-10 rounded-lg border border-slate-200 px-2.5 text-sm hover:bg-slate-50 disabled:opacity-60">
                 Aseta etusivuksi
