@@ -11,6 +11,7 @@ import {
   deletePageAction,
   movePageAction,
   renamePageAction,
+  setHomePageAction,
 } from "@/app/(dashboard)/dashboard/actions";
 import {
   buildPageTree,
@@ -152,6 +153,11 @@ function PageTreeItem({
             <button type="button" onClick={() => void copyPage()} disabled={busy} className="min-h-10 rounded-lg border border-slate-200 px-2.5 text-sm hover:bg-slate-50 disabled:opacity-60">
               Kopioi
             </button>
+            {!page.is_home && (
+              <button type="button" onClick={() => void runAction(setHomePageAction(page.id))} disabled={busy} className="min-h-10 rounded-lg border border-slate-200 px-2.5 text-sm hover:bg-slate-50 disabled:opacity-60">
+                Aseta etusivuksi
+              </button>
+            )}
             <button type="button" onClick={() => void onMove(page.id, page.parent_id, Math.max(0, page.position - 1))} disabled={busy || page.position === 0} aria-label={"Siirrä " + page.title + " ylöspäin"} className="min-h-10 min-w-10 rounded-lg border border-slate-200 px-2 text-sm hover:bg-slate-50 disabled:opacity-40">
               ↑
             </button>

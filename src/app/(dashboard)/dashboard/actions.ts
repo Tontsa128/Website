@@ -235,6 +235,31 @@ export async function copyPageAction(pageId: string): Promise<ActionResult> {
   }
 }
 
+export async function setHomePageAction(pageId: string): Promise<ActionResult> {
+  const parsedId = uuidSchema.safeParse(pageId);
+  if (!parsedId.success) {
+    return { ok: false, message: "Sivun tunniste ei ole kelvollinen." };
+  }
+
+  try {
+    const { supabase, userId } = await getAuthorizedClient();
+    if (!userId) return { ok: false, message: "Kirjaudu sisään ennen etusivun asettamista." };
+
+    const siteId = await getPageSiteId(supabase, parsedId.data);
+    if (!siteId) return { ok: false, message: "Sivua ei löytynyt tai siihen ei ole oikeutta." };
+
+    const { error } = await supabase.rpc("set_home_page", {
+      p_page_id: parsedId.data,
+    });
+    if (error) return { ok: false, message: publicError(error) };
+
+    revalidatePath("/dashboard/sites/" + siteId);
+    return { ok: true, message: "Etusivu päivitettiin." };
+  } catch (error) {
+    return { ok: false, message: publicError(error) };
+  }
+}
+
 export async function deletePageAction(pageId: string): Promise<ActionResult> {
   const parsedId = uuidSchema.safeParse(pageId);
   if (!parsedId.success) {

@@ -4,6 +4,9 @@
 grant select, insert, update, delete on public.sites, public.pages to authenticated;
 revoke insert, update, delete on public.sites, public.pages from anon;
 
+create unique index if not exists pages_one_home_page_per_site
+  on public.pages(site_id) where is_home;
+
 create or replace function public.create_site(p_name text)
 returns uuid
 language plpgsql
@@ -336,25 +339,29 @@ begin
     where page.id = ordered.id;
   end if;
 
-  with ordered as (
+  with other_siblings as (
     select
       id,
-      row_number() over (
-        order by
-          case when id = p_page_id then v_position else position end,
-          case when id = p_page_id then 0 else 1 end,
-          position,
-          id
-      ) - 1 as next_position
+      row_number() over (order by position, id) - 1 as sibling_index
     from public.pages
-    where site_id = v_page.site_id and parent_id is not distinct from p_parent_id
+    where site_id = v_page.site_id
+      and parent_id is not distinct from p_parent_id
+      and id <> p_page_id
+  ),
+  assignments as (
+    select
+      id,
+      sibling_index + case when sibling_index >= v_position then 1 else 0 end as next_position
+    from other_siblings
+    union all
+    select p_page_id, v_position
   )
   update public.pages page
-  set position = ordered.next_position
-  from ordered
-  where page.id = ordered.id;
+  set position = assignments.next_position
+  from assignments
+  where page.id = assignments.id;
 end;
-$$;
+$;
 
 create or replace function public.copy_page_subtree(p_page_id uuid)
 returns uuid
@@ -464,14 +471,49 @@ begin
 end;
 $$;
 
+
+create or replace function public.set_home_page(p_page_id uuid)
+returns void
+language plpgsql
+security invoker
+set search_path = public
+as $
+declare
+  v_site_id uuid;
+begin
+  if auth.uid() is null then
+    raise exception 'Authentication required';
+  end if;
+
+  select pages.site_id into v_site_id
+  from public.pages pages
+  join public.sites sites on sites.id = pages.site_id
+  where pages.id = p_page_id and sites.owner_id = auth.uid();
+
+  if not found then
+    raise exception 'Page not found';
+  end if;
+
+  update public.pages
+  set is_home = false
+  where site_id = v_site_id and is_home and id <> p_page_id;
+
+  update public.pages
+  set is_home = true
+  where id = p_page_id;
+end;
+$;
+
 revoke all on function public.create_site(text) from public, anon;
 revoke all on function public.create_page(uuid, uuid, text) from public, anon;
 revoke all on function public.rename_page(uuid, text) from public, anon;
 revoke all on function public.move_page(uuid, uuid, integer) from public, anon;
 revoke all on function public.copy_page_subtree(uuid) from public, anon;
+revoke all on function public.set_home_page(uuid) from public, anon;
 
 grant execute on function public.create_site(text) to authenticated;
 grant execute on function public.create_page(uuid, uuid, text) to authenticated;
 grant execute on function public.rename_page(uuid, text) to authenticated;
 grant execute on function public.move_page(uuid, uuid, integer) to authenticated;
 grant execute on function public.copy_page_subtree(uuid) to authenticated;
+grant execute on function public.set_home_page(uuid) to authenticated;

@@ -59,7 +59,7 @@ export default async function DashboardPage() {
                       {site.status === "published" ? "Julkaistu" : "Luonnos"}
                     </span>
                   </div>
-                  <p className="mt-2 break-all text-sm text-slate-500">{site.slug}.sivusto.local</p>
+                  <p className="mt-2 break-all text-sm text-slate-500">Osoitetunniste: {site.slug}</p>
                   <p className="mt-5 text-sm font-medium text-slate-800">Hallitse sivuja →</p>
                 </Link>
               ))}
