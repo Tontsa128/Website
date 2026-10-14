@@ -38,6 +38,12 @@ export const BLOCK_REGISTRY: Record<BlockType, BlockDefinition> = {
     description: "Kaksi tai kolme erikseen muokattavaa tekstipalstaa.",
     icon: "▥",
   },
+  gallery: {
+    type: "gallery",
+    label: "Kuvagalleria",
+    description: "Useita kuva-arkiston kuvia samassa galleriassa.",
+    icon: "▦",
+  },
 };
 
 export const BLOCK_TYPES = Object.keys(BLOCK_REGISTRY) as BlockType[];

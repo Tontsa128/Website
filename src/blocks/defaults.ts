@@ -75,6 +75,13 @@ export function createDefaultBlock(type: BlockType): PageBlock {
           ],
         },
       };
+    case "gallery":
+      return {
+        id,
+        type,
+        version: 1,
+        props: { mediaIds: [], columns: 3 },
+      };
   }
 }
 
