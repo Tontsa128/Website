@@ -21,7 +21,9 @@
     "react-dom": "19.3.0",
     "tailwind-merge": "3.7.0",
     "@supabase/ssr": "0.12.7",
-    "@supabase/supabase-js": "2.117.3"
+    "@supabase/supabase-js": "2.117.3",
+    "@dnd-kit/react": "0.5.0",
+    "zod": "4.6.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "4.3.3",

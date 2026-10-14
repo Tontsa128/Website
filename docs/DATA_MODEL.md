@@ -128,3 +128,13 @@ Ei toteuteta MVP:ssä. Malli lisätään vasta maksuvaiheessa, jolloin Stripe/Pa
 Sivun `content` ja `published_content` ovat versionoituja JSON-listoja. Jokaisella lohkolla on `id`, `type`, `version`, `props` ja tarvittaessa `children`. Lohkojen props validoidaan Zodilla ennen tallennusta ja julkaisua.
 
 Rich text tallennetaan Tiptapin JSON-muodossa. Käyttäjän sisältöä ei oleteta luotettavaksi.
+
+
+## Vaiheen 2 toteutussäännöt
+
+- Sites- ja pages-muokkausoikeudet myönnetään authenticated-roolille, mutta jokainen operaatio rajautuu omistajan RLS-politiikoilla.
+- Anonyymille roolille ei myönnetä sivujen luonnoskentän `content` lukuoikeutta; julkinen lukeminen käyttää myöhemmin erikseen julkaistavaa sisältöä.
+- Sivun luonti, nimeäminen, siirto, alipuuston kopiointi ja sivuston luonti tapahtuvat RPC-funktioissa tietokantatransaktiossa.
+- Polku muodostetaan sivun slugista ja vanhemman täydestä polusta. Slug-/vanhempimuutokset päivittävät jokaisen jälkeläisen polun samassa transaktiossa.
+- Sivun kopiointi kopioi rekursiivisen alipuuston luonnokseksi: jokaiselle kopioidulle sivulle syntyy uusi UUID, sisäiset parent_id-viitteet mapataan uusiin tunnisteisiin ja published_content asetetaan tyhjäksi.
+- Enimmäismäärä on kolme sivustoa käyttäjää kohti. Sivuraja tarkistetaan tietokannassa rinnakkaisten pyyntöjen estämiseksi.
