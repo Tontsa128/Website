@@ -175,7 +175,9 @@ Commitit: Conventional Commits (`feat:`, `fix:`, `chore:`).
 
 ## 10. Työjärjestys
 
-Ensimmäisenä luodaan `docs/DECISIONS.md` ja `docs/DATA_MODEL.md`, sen jälkeen toteutetaan Vaihe 0 omaan branchiin ja avataan yksi PR. Vaiheen jälkeen pysähdytään odottamaan hyväksyntää ennen Vaihetta 1.
+Jokainen vaihe tehdään omassa branchissaan ja omassa pull requestissaan. PR:n odottaminen ei pysäytä seuraavan vaiheen valmistelua: seuraava vaihe voidaan aloittaa edellisen vaiheen branchin pohjalta, mutta sitä ei merkitä valmiiksi eikä yhdistetä ennen kuin sen omat tarkistukset ovat vihreät. Kun aloitat uuden vaiheen, tarkista ensin edellisen vaiheen PR, CI-tulokset ja virheraportit uudelleen. Korjaa edelliseen vaiheeseen kuuluvat viat sen omassa branchissa/PR:ssä; pidä uuden vaiheen muutokset erillään.
+
+Jokaisen vaiheen jälkeen aja `pnpm lint`, `pnpm typecheck`, `pnpm test` ja `pnpm build`. Jos paikallista ajoa ei voi tehdä, kirjaa rajoite ja käytä GitHub Actions -tuloksia; älä väitä testejä onnistuneiksi ilman näyttöä. Seuraava vaihe saa edetä odotellessa, mutta sitä ei saa yhdistää ennen kuin perustana olevat korjaukset on tarkastettu.
 
 ## 11. Kiellot
 
