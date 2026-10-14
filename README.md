@@ -5,13 +5,16 @@ Tekoälyavusteinen SaaS-nettisivukone pienyrityksille, yksinyrittäjille ja free
 ## Kehitystila
 
 - Vaihe 0: tekninen pohja ja CI:n korjauskierros ovat PR:ssä #1.
-- Vaihe 1: kirjautumisen toteutus on PR:ssä #2. Älä merkitse kirjautumista tuotantovalmiiksi ennen kuin Supabase-projekti ja Google OAuth on määritetty ja rekisteröityminen, vahvistus, kirjautuminen sekä palautus testattu.
+- Vaihe 1: kirjautumisen toteutus on PR:ssä #2. Älä merkitse kirjautumista tuotantovalmiiksi ennen kuin Supabase-projekti ja Google OAuth on määritetty ja kirjautumispolut testattu.
+- Vaihe 2: sivustot ja sivupuu ovat työn alla branchissa `phase-2-sites-pages`.
 
 ## Teknologia
 
 - Next.js 16 App Router + TypeScript strict
 - React 19 + Tailwind CSS 4
 - Supabase Auth + PostgreSQL + RLS
+- Zod-syötteiden validointiin
+- dnd-kit-sivupuun kosketusystävälliseen vedä-ja-pudota-järjestelyyn
 - Supabase SSR -asiakkaat evästepohjaiselle palvelinistunnolle
 - Vitest + GitHub Actions
 

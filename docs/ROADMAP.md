@@ -17,13 +17,14 @@
 - [ ] profiles + trigger
 - [ ] Testaa kaikki kirjautumispolut oikeassa Supabase-projektissa
 
-## Vaihe 2 — Sivustot ja sivupuu
-- sites/pages + RLS
-- dashboard
-- sivujen CRUD
-- järjestely ja siirto
-- polkujen päivitys
-- puulogiikan ja RLS:n testit
+## Vaihe 2 — Sivustot ja sivupuu (toteutus kesken PR:ssä #3)
+- [ ] Sivuston luonti ja käyttäjäkohtainen enintään 3 sivuston raja
+- [ ] Sites/pages CRUD ja palvelinpuolen validointi
+- [ ] Monitasoinen sivupuu
+- [ ] Sivu, alasivu, nimeäminen, kopiointi ja poisto
+- [ ] Vedä-ja-pudota-siirto sekä näppäimistöystävälliset järjestyspainikkeet
+- [ ] Polkujen päivitys transaktionaalisilla RPC-funktioilla
+- [ ] Sivupuun yksikkötestit ja kahden käyttäjän RLS-testit
 
 ## Vaihe 3 — Editori
 - lohkorekisteri

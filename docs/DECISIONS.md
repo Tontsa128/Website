@@ -45,3 +45,12 @@
 ## 2026-10-14 – TypeScript- ja lint-yhteensopivuuden tarkistus
 
 - CI todisti, että käytössä oleva typescript-eslint ei tue TypeScript 7.0.2:ta: lint pysähtyi virheeseen ennen muita tarkistuksia. TypeScript-työkalupaketin dokumentoitu tuettu alue on tällä hetkellä alle 6.1.0, joten projekti käyttää TypeScript 6.0.3:a tiukan tyypityksen säilyttäen. TypeScript 7 voidaan ottaa käyttöön vasta, kun lint- ja Next.js-työkalut tukevat sitä.
+
+
+## 2026-10-14 – Vaihe 2: sivustot ja sivupuu
+
+- Käytetään Zod 4.6.5:tä palvelinpuolen syötteiden validoimiseen ja @dnd-kit/react 0.5.0:aa nykyisen dnd-kit React -rajapinnan kautta.
+- Sivuston luonti, sivupuun siirto, nimeäminen ja alipuuston kopiointi toteutetaan Postgres RPC -funktioina. Näin polkujen ja jälkeläisten päivitykset tapahtuvat yhdessä tietokantatransaktiossa eikä osittain onnistuneita polkupäivityksiä synny verkkopyyntöjen välissä.
+- RPC-funktiot toimivat kutsujan oikeuksilla (SECURITY INVOKER), tarkistavat auth.uid()-omistajuuden ja ovat suoritettavissa vain authenticated-roolille. Taulujen RLS pysyy käytössä.
+- Käyttäjällä voi olla enintään kolme sivustoa. Rajaa valvoo tietokantafunktio lukitsemalla käyttäjäkohtaisen advisory-lockin sivustoa luotaessa.
+- Sivujen kopiointi kopioi koko alipuuston luonnoksiksi. Julkaistu sisältö ei kopioidu julkaistuksi, eikä kopio automaattisesti asetu etusivuksi.
