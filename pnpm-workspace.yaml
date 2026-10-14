@@ -1,0 +1,6 @@
+packages: []
+
+# Only allow the native resolver's required install/build script.
+# Do not enable lifecycle scripts for all transitive dependencies.
+allowBuilds:
+  unrs-resolver: true

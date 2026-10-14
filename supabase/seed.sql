@@ -1,0 +1,2 @@
+-- Intentionally empty in Phase 0.
+-- Do not seed fictional businesses, users, content, prices, legal text, or other production-like data.
