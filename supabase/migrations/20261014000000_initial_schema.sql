@@ -138,6 +138,7 @@ language plpgsql
 as $$
 declare
   current_id uuid;
+  parent_site_id uuid;
 begin
   if new.parent_id is null then
     return new;
@@ -145,6 +146,18 @@ begin
 
   if new.parent_id = new.id then
     raise exception 'A page cannot be its own parent';
+  end if;
+
+  select site_id into parent_site_id
+  from public.pages
+  where id = new.parent_id;
+
+  if parent_site_id is null then
+    raise exception 'Parent page does not exist';
+  end if;
+
+  if parent_site_id <> new.site_id then
+    raise exception 'Parent page must belong to the same site';
   end if;
 
   current_id := new.parent_id;
@@ -159,8 +172,34 @@ begin
 end;
 $$;
 
-create trigger pages_prevent_cycle before insert or update of parent_id on public.pages
+create trigger pages_prevent_cycle before insert or update of parent_id, site_id on public.pages
 for each row execute function public.prevent_page_cycle();
+
+create or replace function public.validate_media_ownership()
+returns trigger
+language plpgsql
+as $$
+begin
+  if not exists (
+    select 1 from public.sites
+    where id = new.site_id and owner_id = new.owner_id
+  ) then
+    raise exception 'Media owner must own the associated site';
+  end if;
+
+  if new.folder_id is not null and not exists (
+    select 1 from public.media_folders
+    where id = new.folder_id and site_id = new.site_id
+  ) then
+    raise exception 'Media folder must belong to the same site';
+  end if;
+
+  return new;
+end;
+$$;
+
+create trigger media_validate_ownership before insert or update of site_id, owner_id, folder_id on public.media
+for each row execute function public.validate_media_ownership();
 
 create or replace function public.handle_new_user()
 returns trigger
@@ -245,3 +284,18 @@ create policy "redirects_owner_manage" on public.redirects for all using (
 ) with check (
   exists (select 1 from public.sites where sites.id = redirects.site_id and sites.owner_id = auth.uid())
 );
+
+-- Public rendering may only read published fields. RLS filters rows, while
+-- column grants prevent anonymous clients from reading draft content or owners.
+revoke select on public.sites from anon;
+grant select (id, name, slug, theme, status, published_at) on public.sites to anon;
+
+revoke select on public.pages from anon;
+grant select (
+  id, site_id, parent_id, title, slug, position, path, show_in_nav, is_home,
+  status, seo, published_content, created_at, updated_at
+) on public.pages to anon;
+
+-- The plan is managed by the application, not editable by the account holder.
+revoke update on public.profiles from authenticated;
+grant update (display_name, avatar_url, locale) on public.profiles to authenticated;
