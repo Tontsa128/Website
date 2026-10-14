@@ -2,14 +2,6 @@ import { Fragment, createElement, type ReactNode } from "react";
 
 import { isSafeLinkTarget, type PageBlock, type RichTextDocument, type RichTextNode } from "./schema";
 
-function getStringAttribute(
-  attrs: Record<string, unknown> | undefined,
-  key: string,
-): string | undefined {
-  const value = attrs?.[key];
-  return typeof value === "string" ? value : undefined;
-}
-
 function renderRichNode(node: RichTextNode, key: string): ReactNode {
   if (node.type === "text") {
     let text: ReactNode = node.text ?? "";
@@ -160,8 +152,7 @@ export function BlockPreview({ block }: { block: PageBlock }) {
     case "columns":
       return (
         <div
-          className="grid gap-4"
-          style={{ gridTemplateColumns: "repeat(" + block.props.layout + ", minmax(0, 1fr))" }}
+          className={"grid gap-4 " + (block.props.layout === 2 ? "sm:grid-cols-2" : "sm:grid-cols-2 lg:grid-cols-3")}
         >
           {block.props.cells.map((cell, index) => (
             <div

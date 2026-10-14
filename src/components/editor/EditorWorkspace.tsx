@@ -6,7 +6,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { savePageContentAction } from "@/app/(dashboard)/editor/actions";
 import { BLOCK_REGISTRY, BLOCK_TYPES } from "@/blocks/registry";
 import { BlockPreview, RichTextView } from "@/blocks/BlockRenderer";
-import { createDefaultBlock, createRichTextDocument } from "@/blocks/defaults";
+import { createRichTextDocument } from "@/blocks/defaults";
 import type { BlockType, PageBlock, RichTextDocument } from "@/blocks/schema";
 import { RichTextEditor } from "@/components/editor/RichTextEditor";
 import { usePageEditorStore } from "@/lib/editor/store";
@@ -383,6 +383,7 @@ export function EditorWorkspace({
   const addBlock = usePageEditorStore((state) => state.addBlock);
   const updateBlock = usePageEditorStore((state) => state.updateBlock);
   const removeBlock = usePageEditorStore((state) => state.removeBlock);
+  const duplicateBlockAction = usePageEditorStore((state) => state.duplicateBlock);
   const moveBlock = usePageEditorStore((state) => state.moveBlock);
   const undo = usePageEditorStore((state) => state.undo);
   const redo = usePageEditorStore((state) => state.redo);
@@ -468,15 +469,8 @@ export function EditorWorkspace({
     [addBlock, blocks.length, selectedIndex],
   );
 
-  function duplicateBlock(block: PageBlock) {
-    const clone = createDefaultBlock(block.type);
-    const copied = { ...clone, props: block.props } as PageBlock;
-    addBlock(block.type, selectedIndex + 1);
-    const newSelectedId = usePageEditorStore.getState().selectedBlockId;
-    if (newSelectedId) {
-      updateBlock(newSelectedId, () => copied);
-      selectBlock(newSelectedId);
-    }
+  function duplicateSelectedBlock(blockId: string, index: number) {
+    duplicateBlockAction(blockId, index);
   }
 
   function updateRichText(
@@ -689,7 +683,7 @@ export function EditorWorkspace({
                         }
                         onMove={(offset) => moveBlock(block.id, offset)}
                         onRemove={() => removeBlock(block.id)}
-                        onDuplicate={() => duplicateBlock(block)}
+                        onDuplicate={() => duplicateSelectedBlock(block.id, index + 1)}
                       />
                       {!previewOnly && (
                         <div className="flex justify-center py-1">

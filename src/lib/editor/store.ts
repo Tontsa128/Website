@@ -18,6 +18,7 @@ type PageEditorState = {
     recordHistory?: boolean,
   ) => void;
   removeBlock: (blockId: string) => void;
+  duplicateBlock: (blockId: string, index?: number) => string | null;
   moveBlock: (blockId: string, offset: -1 | 1) => void;
   undo: () => void;
   redo: () => void;
@@ -77,7 +78,7 @@ export const usePageEditorStore = create<PageEditorState>((set, get) => ({
         block.id === blockId ? updated : block,
       ),
       past: recordHistory ? addHistory(state) : state.past,
-      future: recordHistory ? [] : state.future,
+      future: [],
     });
   },
 
@@ -94,6 +95,28 @@ export const usePageEditorStore = create<PageEditorState>((set, get) => ({
       past: addHistory(state),
       future: [],
     });
+  },
+
+  duplicateBlock: (blockId, index) => {
+    const state = get();
+    const source = state.blocks.find((block) => block.id === blockId);
+    if (!source) return null;
+
+    const clone = structuredClone(source);
+    const duplicate = { ...clone, id: crypto.randomUUID() } as PageBlock;
+    const insertionIndex = Math.max(
+      0,
+      Math.min(index ?? state.blocks.length, state.blocks.length),
+    );
+    const blocks = [...state.blocks];
+    blocks.splice(insertionIndex, 0, duplicate);
+    set({
+      blocks,
+      selectedBlockId: duplicate.id,
+      past: addHistory(state),
+      future: [],
+    });
+    return duplicate.id;
   },
 
   moveBlock: (blockId, offset) => {
