@@ -27,7 +27,8 @@
     "@tiptap/react": "3.32.0",
     "@tiptap/starter-kit": "3.32.0",
     "@tiptap/pm": "3.32.0",
-    "zustand": "5.0.15"
+    "zustand": "5.0.15",
+    "@tiptap/core": "3.32.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "4.3.3",
