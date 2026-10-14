@@ -304,7 +304,7 @@ export function SiteTreeEditor({
         {notice && <p role="status" aria-live="polite" className="mt-3 text-sm text-slate-700">{notice}</p>}
       </div>
 
-      <DragDropProvider onDragEnd={(event) => { void handleDrop(String(event.operation.source.id), event.operation.target ? String(event.operation.target.id) : "", event.canceled); }}>
+      <DragDropProvider onDragEnd={(event) => { void handleDrop(event.operation.source ? String(event.operation.source.id) : "", event.operation.target ? String(event.operation.target.id) : "", event.canceled); }}>
         <RootDropTarget />
         {tree.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-slate-300 bg-white px-5 py-10 text-center">
