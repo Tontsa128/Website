@@ -31,3 +31,68 @@ textarea,
 select {
   font: inherit;
 }
+
+ 
+.ProseMirror {
+  min-height: 4rem;
+  overflow-wrap: anywhere;
+}
+
+.ProseMirror:focus {
+  outline: none;
+}
+
+.ProseMirror p {
+  margin-block: 0.65rem;
+}
+
+.ProseMirror h2,
+.ProseMirror h3,
+.ProseMirror h4 {
+  color: #0f172a;
+  font-weight: 650;
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+  margin-block: 1rem 0.5rem;
+}
+
+.ProseMirror h2 {
+  font-size: 1.5rem;
+}
+
+.ProseMirror h3 {
+  font-size: 1.25rem;
+}
+
+.ProseMirror h4 {
+  font-size: 1.125rem;
+}
+
+.ProseMirror ul {
+  list-style: disc;
+  margin-block: 0.75rem;
+  padding-left: 1.5rem;
+}
+
+.ProseMirror ol {
+  list-style: decimal;
+  margin-block: 0.75rem;
+  padding-left: 1.5rem;
+}
+
+.ProseMirror li + li {
+  margin-top: 0.25rem;
+}
+
+.ProseMirror blockquote {
+  border-left: 2px solid #cbd5e1;
+  color: #475569;
+  margin-block: 1rem;
+  padding-left: 1rem;
+}
+
+.ProseMirror a {
+  color: #075985;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
