@@ -23,3 +23,11 @@
 ### Riippuvuudet
 - Uusia riippuvuuksia lisätään vain kun ne palvelevat suoraan määriteltyä arkkitehtuuria. Versionumerot tarkistetaan ajantasaisista lähteistä ennen käyttöönottoa.
 - Salaisuuksia ei versionhallita. `.env.example` sisältää vain muuttujanimet ja ohjeelliset tyhjät arvot.
+
+
+## 2026-10-14 – Vaiheen 0 tarkastuskierros
+
+- CI:n ensimmäinen esto johtui pnpm-lock.yaml-tiedoston puuttumisesta samalla kun actions/setup-node yritti alustaa pnpm-välimuistin. Välimuisti poistettiin käytöstä, kunnes lukitustiedosto on luotu ja versionhallintaan lisätty. CI asentaa riippuvuudet tällä välin ilman frozen-lockfile-tilaa; lukitustiedosto pitää lisätä heti kun asennusympäristö voi generoida ja tarkistaa sen.
+- Julkisten sivujen tietokantaroolille annetaan vain julkaistussa renderöinnissä tarvittavien sarakkeiden lukuoikeus. RLS rajaa rivit, ja sarakeoikeudet estävät anonyymia roolia lukemasta luonnoskenttää pages.content tai omistajan tunnistetta.
+- Profiilin haltija voi päivittää näyttönimen, avatarin ja käyttöliittymän kielen. plan-kenttä on sovelluksen hallitsema eikä sitä voi nostaa käyttäjän omalla SQL/API-pyynnöllä.
+- Sivupuun tietokantatrigger tarkistaa sekä syklit että sen, että vanhempi kuuluu samaan sivustoon. Median trigger tarkistaa sivuston omistajan ja mediakansion sivustokohtaisuuden.
